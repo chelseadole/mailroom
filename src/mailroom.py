@@ -31,7 +31,7 @@ def initial_prompt():
     initial_prompt_response = raw_input('Enter 1, 2, or 3')
 
     if initial_prompt_response == 1:
-        send_thankyou_email()
+        ask_donor_name()
     elif initial_prompt_response == 2:
         create_donor_report()
     elif initial_prompt_response.lower() == 'quit':
@@ -41,11 +41,14 @@ def initial_prompt():
         initial_prompt()
 
 
-def send_thankyou_email():
+def ask_donor_name():
     print("""
 
-        Enter the full name of the donor to email, or type 'list' to \
-        show a list of donor names.
+        Enter the full name of the donor to email
+
+        OR
+
+        Type 'list' to show a list of donor names
 
     """)
 
@@ -53,7 +56,7 @@ def send_thankyou_email():
 
     if thankyou_response == 'list':
         print(DONOR_DICT.keys())
-        send_thankyou_email()
+        ask_donor_name()
     elif thankyou_response in DONOR_DICT:
         ask_donation_amount(thankyou_response)
     elif thankyou_response not in DONOR_DICT:
@@ -62,6 +65,21 @@ def send_thankyou_email():
     elif thankyou_response.lower() == 'quit':
         SystemExit
 
+
+def ask_donation_amount(donor_name):
+
+    formatted_donation_prompt = 'Enter the amount donated by {}'.format(donor_name)
+
+    print(formatted_donation_prompt)
+
+    donation_response = raw_input('Donation:')
+
+    if donation_response <= 0 or type(donation_response) != int:
+        print('Invalid input. Enter a numerical value greater than zero.')
+        ask_donation_amount()
+    elif type(donation_response) == int:
+        DONOR_DICT[donor_name].append(donation_response)
+        send
 
 
 
