@@ -9,7 +9,7 @@ setup(
     author_email='chelseadole@gmail',
     package_dir={' ': 'src'},
     py_modules=['initial_prompt'],
-    install_requires=[],
+    install_requires=['terminaltables'],
     extras_require={
         'test': ['pytest', 'pytest-cov', 'tox'],
         'development': ['ipython']},

@@ -17,9 +17,10 @@ DONOR_DICT = {
 
 
 def initial_prompt():
+    # Main menu: choose between sending an email, viewing a report, or exiting
     print("""
 
-    Ramson-Dole Foundation Donor Database. 
+    Ramson-Dole Foundation Donor Database.
     Follow the prompt, or type 'Quit' to exit
     the program at any point.
 
@@ -42,15 +43,11 @@ def initial_prompt():
 
 
 def ask_donor_name():
+    # Prompt user for donor's name, add to database if new donor
     print("""
 
-        Enter the full name of the donor to email
-
-        OR
-
-        Type 'list' to show a list of donor names
-
-    """)
+        Enter the full name of the donor \n OR \n Type 'list' to show a \
+        list of donor names""")
 
     thankyou_response = raw_input('Donor Name:')
 
@@ -67,19 +64,46 @@ def ask_donor_name():
 
 
 def ask_donation_amount(donor_name):
-
+    # Prompt user for donor's donation amount and add
+    # their donation amount to the DONOR_DICT database
     formatted_donation_prompt = 'Enter the amount donated by {}'.format(donor_name)
 
     print(formatted_donation_prompt)
 
-    donation_response = raw_input('Donation:')
+    donation_amount = raw_input('Donation:')
 
-    if donation_response <= 0 or type(donation_response) != int:
+    if donation_amount.lower() == 'quit':
+        SystemExit
+    elif donation_amount <= 0 or type(donation_amount) != int:
         print('Invalid input. Enter a numerical value greater than zero.')
         ask_donation_amount()
-    elif type(donation_response) == int:
-        DONOR_DICT[donor_name].append(donation_response)
-        send
+    elif type(donation_amount) == int:
+        DONOR_DICT[donor_name].append(donation_amount)
+        send_thankyou_email(donor_name, donation_amount)
+
+
+def send_thankyou_email(donor_name, donation_amount):
+    # Format, create, and send 'Thank You' email to donor
+
+    formatted_thankyou_email = """
+        Dear {},
+
+        On behalf of the Ramson-Dole Foundation for Children Who Can't Read \
+        Good, we would like to personally thank you for your generous \
+        donation of ${}. Your donation will go directly to providing school \
+        supplies, tutors, and textbooks for children in the Seattle area.
+
+        Thank you for your generosity!
+
+        Sincerely,
+
+            Chelsea Dole and Kinley Ramson
+            Founders, Ramson-Dole Foundation
+    """
+
+    print(formatted_thankyou_email)
+    initial_prompt()
+
 
 
 
