@@ -1,5 +1,6 @@
 """Mailroom: commandline tool to generate donor reports and emails."""
 
+import sys
 
 DONOR_DICT = {
     'Chelsea Dole': [3000, 500, 500, 1000],
@@ -16,6 +17,10 @@ DONOR_DICT = {
 }
 
 
+if sys.version_info[0] == 3:
+    raw_input = input
+
+
 def initial_prompt():
     # Main menu: choose between sending an email, viewing a report, or exiting
     print("""
@@ -29,16 +34,16 @@ def initial_prompt():
     \n 3.Exit/Quit
     """)
 
-    initial_prompt_response = raw_input('Enter 1, 2, or 3')
+    initial_prompt_response = raw_input('Enter 1, 2, or 3:  ')
 
-    if initial_prompt_response == 1:
+    if initial_prompt_response == '1':
         ask_donor_name()
-    elif initial_prompt_response == 2:
+    elif initial_prompt_response == '2':
         create_donor_report()
-    elif initial_prompt_response.lower() == 'quit':
-        SystemExit
+    elif initial_prompt_response.lower() == 'quit' or initial_prompt_response == '3':
+        KeyboardInterrupt
     else:
-        print('\n Invalid choice. Please type 1, 2, or 3.')
+        print('\n Invalid choice. Please type 1, 2, or 3. \n')
         initial_prompt()
 
 
@@ -46,10 +51,9 @@ def ask_donor_name():
     # Prompt user for donor's name, add to database if new donor
     print("""
 
-        Enter the full name of the donor \n OR \n Type 'list' to show a \
-        list of donor names""")
+    Enter the full name of the donor -OR- 'list' to show a list of donors""")
 
-    thankyou_response = raw_input('Donor Name:')
+    thankyou_response = raw_input('Donor Name:  ')
 
     if thankyou_response == 'list':
         print(DONOR_DICT.keys())
@@ -60,7 +64,7 @@ def ask_donor_name():
         DONOR_DICT[thankyou_response] = []
         ask_donation_amount(thankyou_response)
     elif thankyou_response.lower() == 'quit':
-        SystemExit
+        KeyboardInterrupt
 
 
 def ask_donation_amount(donor_name):
@@ -70,14 +74,14 @@ def ask_donation_amount(donor_name):
 
     print(formatted_donation_prompt)
 
-    donation_amount = raw_input('Donation:')
+    donation_amount = raw_input('Donation: ')
 
     if donation_amount.lower() == 'quit':
-        SystemExit
-    elif donation_amount <= 0 or type(donation_amount) != int:
-        print('Invalid input. Enter a numerical value greater than zero.')
-        ask_donation_amount()
-    elif type(donation_amount) == int:
+        KeyboardInterrupt
+    elif int(donation_amount) <= 0:
+        print('Invalid input. Enter a numerical value greater than zero. \n')
+        ask_donation_amount(donor_name)
+    else:
         DONOR_DICT[donor_name].append(donation_amount)
         send_thankyou_email(donor_name, donation_amount)
 
@@ -89,9 +93,9 @@ def send_thankyou_email(donor_name, donation_amount):
         Dear {},
 
         On behalf of the Ramson-Dole Foundation for Children Who Can't Read \
-        Good, we would like to personally thank you for your generous \
-        donation of ${}. Your donation will go directly to providing school \
-        supplies, tutors, and textbooks for children in the Seattle area.
+        Good, we would like to personally thank you for your generous donation
+        of ${}. Your donation will go directly to providing school supplies,
+        tutors, and textbooks for children in the Seattle area.
 
         Thank you for your generosity!
 
@@ -101,7 +105,8 @@ def send_thankyou_email(donor_name, donation_amount):
             Founders, Ramson-Dole Foundation
     """
 
-    print(formatted_thankyou_email)
+    print(formatted_thankyou_email.format(donor_name, donation_amount))
+    print('Your email to {} has been sent!'.format(donor_name))
     initial_prompt()
 
 

@@ -7,9 +7,9 @@ setup(
     description='Commandline tool to send donor emails and create reports',
     author='Chelsea Dole, Kinley Ramson',
     author_email='chelseadole@gmail',
-    package_dir={' ': 'src'},
-    py_modules=['initial_prompt'],
-    install_requires=['terminaltables'],
+    package_dir={'': 'src'},
+    py_modules=['mailroom'],
+    install_requires=[],
     extras_require={
         'test': ['pytest', 'pytest-cov', 'tox'],
         'development': ['ipython']},
