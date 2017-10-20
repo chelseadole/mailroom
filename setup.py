@@ -15,6 +15,6 @@ setup(
         'development': ['ipython']},
     entry_points={
         'console_scripts': [
-            'runme=ackermann:ackermann']
+            'mailroom = mailroom:initial_prompt']
     }
 )
