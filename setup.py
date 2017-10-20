@@ -11,7 +11,7 @@ setup(
     py_modules=['ackermann'],
     install_requires=[],
     extras_require={
-        'test': ['pytest', 'pytest-cov'],
+        'test': ['pytest', 'pytest-cov', 'tox'],
         'development': ['ipython']},
     entry_points={
         'console_scripts': [
