@@ -66,7 +66,7 @@ def ask_donor_name():
 def ask_donation_amount(donor_name):
     # Prompt user for donor's donation amount and add
     # their donation amount to the DONOR_DICT database
-    formatted_donation_prompt = 'Enter the amount donated by {}'.format(donor_name)
+    formatted_donation_prompt = 'Enter amount donated by {}'.format(donor_name)
 
     print(formatted_donation_prompt)
 
@@ -105,21 +105,19 @@ def send_thankyou_email(donor_name, donation_amount):
     initial_prompt()
 
 
+def create_donor_report():
+    print("--Ramson-Dole Foundation Donor Report--")
 
+    print("""Donor Name   |   Total Donated  |   # of Donations  |  Average Donation
+    """)
 
+    for key, value in DONOR_DICT:
+        donor_name = key
+        total_don = sum(value)
+        num_dons = len(value)
+        avg_don = sum(value) / float(len(value))
+        print('{} {} {} {}'.format(donor_name, total_don, num_dons, avg_don))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    initial_prompt()
 
 
