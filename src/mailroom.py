@@ -16,53 +16,61 @@ DONOR_DICT = {
     'Moe Sakan': [200, 300, 500]
 }
 
-
 if sys.version_info[0] == 3:
     raw_input = input
 
+def get_input(prompt, options=None):
+    print(prompt)
+    response = raw_input(options)
+    if options is None or response in options:
+        return response
+    else:
+        print('Please enter valid response.')
+        return get_input(prompt, options)
 
-def initial_prompt():
-    # Main menu: choose between sending an email, viewing a report, or exiting
-    print("""
-
-    Ramson-Dole Foundation Donor Database.
-    Follow the prompt, or type 'Quit' to exit
-    the program at any point.
-
+input_prompt = """
     \n 1.Send Thank You Email
     \n 2.View Donor History Report
     \n 3.Exit/Quit
-    """)
 
-    initial_prompt_response = raw_input('Enter 1, 2, or 3:  ')
+    Enter 1, 2, or 3:
+    """
 
-    if initial_prompt_response == '1':
-        ask_donor_name()
-    elif initial_prompt_response == '2':
-        create_donor_report()
-    elif initial_prompt_response.lower() == 'quit' or initial_prompt_response == '3':
-        KeyboardInterrupt
-    else:
-        print('\n Invalid choice. Please type 1, 2, or 3. \n')
-        initial_prompt()
 
+donor_name_prompt = "Enter the full name of the donor -OR- 'list' to show a list of donors"
+
+
+def mailroom():
+
+    while True:
+
+        menu_input = get_input(input_prompt, [1, 2, 3, 'quit'])
+
+
+        if menu_input == 1:
+            donor_name = get_input(donor_name_prompt)
+            real_donor = ask_donor_name()
+            if donor_name == 'ask donation':
+                donation_amount = get_input('Enter amount donated:  ')
+            # donor_name = get_input(donor_name_prompt)
+            # if donor_name == 'list':
+            #     for donor in DONOR_DICT:
+            #         print(donor)
+            #     donor_name = get_input(donor_name_prompt)
+            # elif 
+        
 
 def ask_donor_name():
     # Prompt user for donor's name, add to database if new donor
-    print("""
-
-    Enter the full name of the donor -OR- 'list' to show a list of donors""")
-
-    thankyou_response = raw_input('Donor Name:  ')
-
     if thankyou_response == 'list':
-        print(DONOR_DICT.keys())
+        for donor in DONOR_DICT:
+            print(donor)
         ask_donor_name()
     elif thankyou_response in DONOR_DICT:
-        ask_donation_amount(thankyou_response)
+        return 'ask donation'
     elif thankyou_response not in DONOR_DICT:
         DONOR_DICT[thankyou_response] = []
-        ask_donation_amount(thankyou_response)
+        return 'ask donation'
     elif thankyou_response.lower() == 'quit':
         KeyboardInterrupt
 
@@ -70,15 +78,12 @@ def ask_donor_name():
 def ask_donation_amount(donor_name):
     # Prompt user for donor's donation amount and add
     # their donation amount to the DONOR_DICT database
-    formatted_donation_prompt = 'Enter amount donated by {}'.format(donor_name)
 
     print(formatted_donation_prompt)
 
-    donation_amount = raw_input('Donation: ')
-
     if donation_amount.lower() == 'quit':
         KeyboardInterrupt
-    elif int(donation_amount) <= 0:
+    elif int(donation_amount) <= 0 or type(donation_amount) == str:
         print('Invalid input. Enter a numerical value greater than zero. \n')
         ask_donation_amount(donor_name)
     else:
@@ -116,12 +121,12 @@ def create_donor_report():
     print("""Donor Name   |   Total Donated  |   # of Donations  |  Average Donation
     """)
 
-    for key, value in DONOR_DICT:
+    for key, value in DONOR_DICT.items():
         donor_name = key
         total_don = sum(value)
         num_dons = len(value)
-        avg_don = sum(value) / float(len(value))
-        print('{} {} {} {}'.format(donor_name, total_don, num_dons, avg_don))
+        avg_don = round(sum(value) / len(value))
+        print('{}       {}            {}          {}'.format(donor_name, total_don, num_dons, avg_don))
 
     initial_prompt()
 
