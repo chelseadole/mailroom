@@ -1,3 +1,7 @@
+ORIGINAL VERSION:
+
+"""Mailroom: commandline tool to generate donor reports and emails."""
+
 import sys
 
 DONOR_DICT = {
@@ -17,64 +21,85 @@ DONOR_DICT = {
 if sys.version_info[0] == 3:
     raw_input = input
 
-def main():
-    input_prompt = """
-    1. Send a Thank You Email
-    2. View Donor Report
-    3. Quit
+def get_input(prompt, options=None):
+    print(prompt)
+    response = raw_input(options)
+    if options is None or response in options:
+        return response
+    else:
+        print('Please enter valid response.')
+        return get_input(prompt, options)
+
+input_prompt = """
+    \n 1.Send Thank You Email
+    \n 2.View Donor History Report
+    \n 3.Exit/Quit
+
+    Enter 1, 2, or 3:
     """
-    user_input = raw_input(input_prompt)
+
+
+donor_name_prompt = "Enter the full name of the donor -OR- 'list' to show a list of donors"
+
+
+def mailroom():
 
     while True:
-        if user_input == 1:
-            donor_name = raw_input('Enter donor name or type "list" to show full donor list\n')
-            result = ask_donor_name(donor_name)
-            if len(result) > 1:
-                user_input = result[0]
-                name = result[1]
-            else:
-                user_input = result
-            continue
-        if user_input == 'donate':
-            money_amt = raw_input('Enter amount of donation:\n')
-            user_input = ask_donation_amount(name, money_amt)
-            continue
-        if user_input == 'initial':
-            user_input = raw_input(input_prompt)
-            continue 
-        if user_input == 2:
-            print(create_donor_report())
-            user_input = 'initial'
-            continue
 
-def ask_donor_name(name):
+        menu_input = get_input(input_prompt, [1, 2, 3, 'quit'])
+
+
+        if menu_input == 1:
+            donor_name = get_input(donor_name_prompt)
+            real_donor = ask_donor_name()
+            if donor_name == 'ask donation':
+                donation_amount = get_input('Enter amount donated:  ')
+            # donor_name = get_input(donor_name_prompt)
+            # if donor_name == 'list':
+            #     for donor in DONOR_DICT:
+            #         print(donor)
+            #     donor_name = get_input(donor_name_prompt)
+            # elif 
+        
+
+def ask_donor_name():
     # Prompt user for donor's name, add to database if new donor
 
-    if name == 'list':
+    thankyou_response = raw_input('')
+
+    if thankyou_response == 'list':
         for donor in DONOR_DICT:
             print(donor)
-        return  1
-    elif name in DONOR_DICT:
-        return 'donate'
-    elif name not in DONOR_DICT:
-        DONOR_DICT[name] = []
-        return 'donate'
+        ask_donor_name()
+    elif thankyou_response in DONOR_DICT:
+        return 'ask donation'
+    elif thankyou_response not in DONOR_DICT:
+        DONOR_DICT[thankyou_response] = []
+        return 'ask donation'
     elif thankyou_response.lower() == 'quit':
         KeyboardInterrupt
 
-def ask_donation_amount(donor_name, donor_amount):
+
+def ask_donation_amount(donor_name):
     # Prompt user for donor's donation amount and add
     # their donation amount to the DONOR_DICT database
 
+
+
     if donation_amount.lower() == 'quit':
         KeyboardInterrupt
-    elif int(donation_amount) <= 0:
+    elif int(donation_amount) <= 0 or type(donation_amount) == str:
         print('Invalid input. Enter a numerical value greater than zero. \n')
-        return 'donate'
+        ask_donation_amount(donor_name)
     else:
-        DONOR_DICT[donor_name].append(donor_amount)
+        DONOR_DICT[donor_name].append(donation_amount)
+        send_thankyou_email(donor_name, donation_amount)
 
-        formatted_thankyou_email = """
+
+def send_thankyou_email(donor_name, donation_amount):
+    # Format, create, and send 'Thank You' email to donor
+
+    formatted_thankyou_email = """
         Dear {},
 
         On behalf of the Ramson-Dole Foundation for Children Who Can't Read \
@@ -88,10 +113,11 @@ def ask_donation_amount(donor_name, donor_amount):
 
             Chelsea Dole and Kinley Ramson
             Founders, Ramson-Dole Foundation
-        """
-        print(formatted_thankyou_email.format(donor_name, donor_amount))
-        print('Your email to {} has been sent!'.format(donor_name))
-        return 'initial'
+    """
+
+    print(formatted_thankyou_email.format(donor_name, donation_amount))
+    print('Your email to {} has been sent!'.format(donor_name))
+    initial_prompt()
 
 
 def create_donor_report():
@@ -107,4 +133,4 @@ def create_donor_report():
         avg_don = round(sum(value) / len(value))
         print('{}       {}            {}          {}'.format(donor_name, total_don, num_dons, avg_don))
 
-    return 'initial' #back to beginning
+    initial_prompt()
