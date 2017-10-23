@@ -10,3 +10,8 @@ def test_initial_prompt(path='testpoe.txt'):
 def test_dictionary():
     from mailroom import DONOR_DICT
     assert type(DONOR_DICT) == dict
+
+def test_ask_donor_name():
+    from mailroom import ask_donor_name
+    ask_donor_name()
+    
