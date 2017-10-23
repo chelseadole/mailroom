@@ -1,4 +1,4 @@
-"""Setup, requirements, info for Mailroom project"""
+"""Setup, requirements, info for Mailroom project."""
 
 from setuptools import setup
 
@@ -15,6 +15,6 @@ setup(
         'development': ['ipython']},
     entry_points={
         'console_scripts': [
-            'mailroom = mailroom:initial_prompt']
+            'mailroom = mailroom:main']
     }
 )
