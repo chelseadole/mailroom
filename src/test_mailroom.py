@@ -1,7 +1,7 @@
 """Tests for mailroom, program that generates thank you letters and reports."""
 
 
-def test_initial_prompt():
+def test_main():
     """Test that trigrammer outputs actual trigram text."""
     from mailroom import main
     from mailroom import ask_donor_name

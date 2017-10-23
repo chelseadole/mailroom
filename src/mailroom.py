@@ -30,30 +30,34 @@ def main():
     user_input = raw_input(input_prompt)
 
     while True:
-        if user_input == 'donor name':
+        if user_input == '1':
             donor_name = raw_input('Enter donor name or type "list" to show full donor list\n')
             result = ask_donor_name(donor_name)
-            if len(result) > 1:
-                user_input = result[0]
-                name = result[1]
-            else:
-                user_input = result
+            # if len(str(result)) > 1:
+            #     user_input = result[0]
+            #     name = result[1]
+            # else:
+            #     user_input = result
+            user_input = result
             continue
-        if user_input == 'donate':
+        elif user_input == 'donate':
             money_amt = raw_input('Enter amount of donation:\n')
+            name = donor_name
             user_input = ask_donation_amount(name, money_amt)
             continue
-        if user_input == 'initial':
+        elif user_input == 'initial':
             user_input = raw_input(input_prompt)
             continue
-        if user_input == 2:
+        elif user_input == '2':
             print(create_donor_report())
             user_input = 'initial'
             continue
-        if user_input == 3:
+        elif user_input == '3':
             KeyboardInterrupt
-        else:
-            print('Error in user_input, line 55ish.')
+        # else:
+        #     print('Please enter valid input.')
+        #     user_input = 'initial'
+        #     continue
 
 
 def ask_donor_name(name):
@@ -61,7 +65,7 @@ def ask_donor_name(name):
     if name == 'list':
         for donor in DONOR_DICT:
             print(donor)
-        return 'donor name'
+        return '1'
     elif name in DONOR_DICT:
         return 'donate'
     elif name not in DONOR_DICT:
@@ -84,7 +88,7 @@ def ask_donation_amount(donor_name, donor_amount):
         formatted_thankyou_email = """
         Dear {},
 
-        On behalf of the Ramson-Dole Foundation for Children Who Can't Read \
+        On behalf of the Ramson-Dole Foundation for Children Who Can't Read
         Good, we would like to personally thank you for your generous donation
         of ${}. Your donation will go directly to providing school supplies,
         tutors, and textbooks for children in the Seattle area.
