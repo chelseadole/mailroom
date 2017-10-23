@@ -22,26 +22,18 @@ if sys.version_info[0] == 3:
 
 def main():
     """Redirect the user to functions based on input."""
-    input_prompt = """
-    1. Send a Thank You Email
-    2. View Donor Report
-    3. Quit
-    """
+    input_prompt = "\n1. Send a Thank You Email\n2. View Donor Report\n3. Quit\n >>> "
+
     user_input = raw_input(input_prompt)
 
     while True:
         if user_input == '1':
-            donor_name = raw_input('Enter donor name or type "list" to show full donor list\n')
+            donor_name = raw_input('\nEnter donor name or type "list" to show full donor list\n >>> ')
             result = ask_donor_name(donor_name)
-            # if len(str(result)) > 1:
-            #     user_input = result[0]
-            #     name = result[1]
-            # else:
-            #     user_input = result
             user_input = result
             continue
         elif user_input == 'donate':
-            money_amt = raw_input('Enter amount of donation:\n')
+            money_amt = raw_input('\nEnter amount of donation:\n >>> ')
             name = donor_name
             user_input = ask_donation_amount(name, money_amt)
             continue
@@ -54,10 +46,6 @@ def main():
             continue
         elif user_input == '3':
             KeyboardInterrupt
-        # else:
-        #     print('Please enter valid input.')
-        #     user_input = 'initial'
-        #     continue
 
 
 def ask_donor_name(name):
@@ -80,10 +68,10 @@ def ask_donation_amount(donor_name, donor_amount):
     if donor_amount.lower() == 'quit':
         KeyboardInterrupt
     elif int(donor_amount) <= 0:
-        print('Invalid input. Enter a numerical value greater than zero. \n')
+        print('\nInvalid input. Enter a value greater than zero. \n >>> ')
         return 'donate'
     else:
-        DONOR_DICT[donor_name].append(donor_amount)
+        DONOR_DICT[donor_name].append(int(donor_amount))
 
         formatted_thankyou_email = """
         Dear {},
