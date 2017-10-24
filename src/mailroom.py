@@ -6,7 +6,7 @@ DONOR_DICT = {
     'Chelsea Dole': [3000, 500, 500, 1000],
     'Kinley Ramson': [5000, 100, 200, 50, 2000, 1500],
     'Nick Hunt-Walker': [500, 500, 250],
-    'Jose Tello': [20, 50, 30],
+    'Wes Gong': [20, 50, 30],
     'Erik Matheson': [10000, 12000, 8000],
     'Carol Greene': [50, 100, 200, 120],
     'Holly Butterfield': [50],
@@ -46,6 +46,7 @@ def main():
             continue
         elif user_input == '3':
             KeyboardInterrupt
+            break
 
 
 def ask_donor_name(name):
