@@ -19,15 +19,6 @@ DONOR_AMOUNT = [
 ]
 
 
-def test_main():
-    """Test that main outputs actual trigram text."""
-    from mailroom import main
-    from mailroom import ask_donor_name
-    from mailroom import ask_donation_amount
-    from mailroom import create_donor_report
-    # test for main function here
-
-
 def test_dictionary():
     """Testing that the dictionary is created."""
     from mailroom import DONOR_DICT
@@ -53,13 +44,3 @@ def test_ask_donation_amount(donor_name, donor_amount, result):
     if donor_name not in DONOR_DICT:
         assert ask_donor_name(donor_name) == 'donate'
     assert ask_donation_amount(donor_name, donor_amount) == result
-
-@pytest.mark.parametrize('donor_name, donor_amount, result', DONOR_AMOUNT)
-def test_ask_donation_amount(donor_name, donor_amount, result):
-    """Testing that donor_amount is calculating/redirecting."""
-    from mailroom import ask_donor_name
-    from mailroom import ask_donation_amount
-    if donor_name not in DONOR_DICT:
-        assert ask_donor_name(donor_name) == 'donate'
-    assert ask_donation_amount(donor_name, donor_amount) == result
-

@@ -41,7 +41,6 @@ def main():
             user_input = raw_input(input_prompt)
             continue
         elif user_input == '2':
-            print(create_donor_report())
             user_input = 'initial'
             continue
         elif user_input == '3':
@@ -106,6 +105,7 @@ def create_donor_report():
         total_don = sum(value)
         num_dons = len(value)
         avg_don = round(sum(value) / len(value))
+
         print('{}       {}            {}          {}'.format(donor_name, total_don, num_dons, avg_don))
 
     return 'initial'
