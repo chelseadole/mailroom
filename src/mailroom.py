@@ -14,7 +14,8 @@ DONOR_DICT = {
     'Elaine Demaray': [200, 300, 90],
     'Olivia Ortiz': [600, 200],
     'Erendiz Tarakci': [80, 50, 75, 75, 75, 200, 300],
-    'Moe Sakan': [200, 300, 500]
+    'Moe Sakan': [200, 300, 500],
+    'Harry Potter': [20, 30, 50, 420]
 }
 
 if sys.version_info[0] == 3:
@@ -101,17 +102,12 @@ def create_donor_report():
     donor_table.field_names = ['Donor Name', 'Total Donated', '# of Donations', 'Avg Donation']
     print("--Ramson-Dole Foundation Donor Report--")
 
-    # print("""Donor Name   |   Total Donated  |   # of Donations  |  Average Donation
-    # """)
-
     for key, value in DONOR_DICT.items():
         donor_name = key
         total_don = sum(value)
         num_dons = len(value)
         avg_don = round(sum(value) / len(value))
-        # print(tabulate([[donor_name, total_don, num_dons, avg_don]], headers=['Donor Name', 'Total Donated', '# of Donations', 'Avg Donation']))
         donor_table.add_row([donor_name, total_don, num_dons, avg_don])
-        # print('{}       {}            {}          {}'.format(donor_name, total_don, num_dons, avg_don))
 
     print(donor_table)
     return 'initial'
