@@ -41,6 +41,7 @@ def main():
             user_input = raw_input(input_prompt)
             continue
         elif user_input == '2':
+            create_donor_report()
             user_input = 'initial'
             continue
         elif user_input == '3':
@@ -49,7 +50,7 @@ def main():
 
 
 def ask_donor_name(name):
-    """Prompt user for donor's name, add to database if new donor"""
+    """Prompt user for donor's name, add to database if new donor."""
     if name == 'list':
         for donor in DONOR_DICT:
             print(donor)
@@ -109,3 +110,6 @@ def create_donor_report():
         print('{}       {}            {}          {}'.format(donor_name, total_don, num_dons, avg_don))
 
     return 'initial'
+
+if __name__ == '__main__':
+    main()
