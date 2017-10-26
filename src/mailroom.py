@@ -49,6 +49,10 @@ def main():
         elif user_input == '3':
             KeyboardInterrupt
             break
+        else:
+            print('\nInvalid Input. Enter 1, 2, or 3.')
+            user_input = raw_input(input_prompt)
+            continue
 
 
 def ask_donor_name(name):
@@ -68,6 +72,9 @@ def ask_donor_name(name):
 
 def ask_donation_amount(donor_name, donor_amount):
     """Prompt user for donor's donation amount, add to DB, send email."""
+    if not donor_amount.isdigit():
+        print('\nInvalid input. Enter a number.')
+        return 'donate'
     if donor_amount.lower() == 'quit':
         KeyboardInterrupt
     elif int(donor_amount) <= 0:
