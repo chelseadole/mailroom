@@ -1,6 +1,7 @@
 """Mailroom: commandline tool to generate donor reports and emails."""
 
 import sys
+from prettytable import PrettyTable
 
 DONOR_DICT = {
     'Chelsea Dole': [3000, 500, 500, 1000],
@@ -96,19 +97,23 @@ def ask_donation_amount(donor_name, donor_amount):
 
 def create_donor_report():
     """Create donor report."""
+    donor_table = PrettyTable()
+    donor_table.field_names = ['Donor Name', 'Total Donated', '# of Donations', 'Avg Donation']
     print("--Ramson-Dole Foundation Donor Report--")
 
-    print("""Donor Name   |   Total Donated  |   # of Donations  |  Average Donation
-    """)
+    # print("""Donor Name   |   Total Donated  |   # of Donations  |  Average Donation
+    # """)
 
     for key, value in DONOR_DICT.items():
         donor_name = key
         total_don = sum(value)
         num_dons = len(value)
         avg_don = round(sum(value) / len(value))
+        # print(tabulate([[donor_name, total_don, num_dons, avg_don]], headers=['Donor Name', 'Total Donated', '# of Donations', 'Avg Donation']))
+        donor_table.add_row([donor_name, total_don, num_dons, avg_don])
+        # print('{}       {}            {}          {}'.format(donor_name, total_don, num_dons, avg_don))
 
-        print('{}       {}            {}          {}'.format(donor_name, total_don, num_dons, avg_don))
-
+    print(donor_table)
     return 'initial'
 
 if __name__ == '__main__':
